@@ -1,4 +1,4 @@
-name: Deploy
+name: Provision and Deploy
 
 on:
   push:
