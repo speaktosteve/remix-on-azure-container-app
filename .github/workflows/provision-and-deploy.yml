@@ -40,9 +40,6 @@ jobs:
     if: ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev') && github.event_name == 'push' }}
 
     steps:
-      - name: 🛑 Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.11.0
-
       - name: 🔓 Azure authentication
         uses: azure/login@v1
         with:
