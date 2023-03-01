@@ -1,4 +1,4 @@
-name: Provision and Deploy
+name: 🚀 Provision and Deploy
 
 on:
   push:
@@ -29,7 +29,7 @@ jobs:
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
 
-      - name: Build
+      - name: 👷 Build
         run: npm run build
 
   provision:
@@ -57,7 +57,7 @@ jobs:
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Azure Dev Provision
+      - name: ☁️ Azure Dev Provision
         run: azd provision --no-prompt
         env:
           AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
@@ -73,6 +73,9 @@ jobs:
       image: mcr.microsoft.com/azure-dev-cli-apps:latest
 
     steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+
       - name: 🔓 Log in with Azure (Client Credentials)
         if: ${{ env.AZURE_CREDENTIALS != '' }}
         run: |
@@ -86,7 +89,7 @@ jobs:
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Azure Dev Deploy
+      - name: 🚀 Azure Dev Deploy
         run: azd deploy --no-prompt
         env:
           AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
