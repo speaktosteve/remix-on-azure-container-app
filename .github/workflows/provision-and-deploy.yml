@@ -77,18 +77,18 @@ jobs:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
 
-      - name: 🔓 Log in with Azure (Client Credentials)
-        if: ${{ env.AZURE_CREDENTIALS != '' }}
-        run: |
-          $info = $Env:AZURE_CREDENTIALS | ConvertFrom-Json -AsHashtable;
-          Write-Host "::add-mask::$($info.clientSecret)"
-          azd login `
-            --client-id "$($info.clientId)" `
-            --client-secret "$($info.clientSecret)" `
-            --tenant-id "$($info.tenantId)"
-        shell: pwsh
-        env:
-          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+      # - name: 🔓 Log in with Azure (Client Credentials)
+      #   if: ${{ env.AZURE_CREDENTIALS != '' }}
+      #   run: |
+      #     $info = $Env:AZURE_CREDENTIALS | ConvertFrom-Json -AsHashtable;
+      #     Write-Host "::add-mask::$($info.clientSecret)"
+      #     azd login `
+      #       --client-id "$($info.clientId)" `
+      #       --client-secret "$($info.clientSecret)" `
+      #       --tenant-id "$($info.tenantId)"
+      #   shell: pwsh
+      #   env:
+      #     AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
 
       #     - name: 🚀 Azure Dev Deploy
       #       run: azd deploy --no-prompt
@@ -96,6 +96,11 @@ jobs:
       #         AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
       #         AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
       #         AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Log in to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Build and deploy Container App
         uses: azure/container-apps-deploy-action@v0
