@@ -106,4 +106,6 @@ jobs:
         uses: azure/container-apps-deploy-action@v0
         with:
           appSourcePath: ${{ github.workspace }}
+          resourceGroup: rg-remix
+          containerAppName: ca-web-agtw7uioiu2do
           acrName: cragtw7uioiu2do
