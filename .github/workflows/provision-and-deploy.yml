@@ -16,7 +16,7 @@ jobs:
   validate:
     name: 👍 Validate Build
 
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       - name: ⬇️ Checkout repo
