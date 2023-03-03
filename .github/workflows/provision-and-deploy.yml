@@ -108,4 +108,7 @@ jobs:
           appSourcePath: ${{ github.workspace }}
           resourceGroup: rg-remix
           containerAppName: ca-web-agtw7uioiu2do
+          containerAppEnvironment: cae-agtw7uioiu2do
           acrName: cragtw7uioiu2do
+          acrUsername: ${{ secrets.REGISTRY_USERNAME }}
+          acrPassword: ${{ secrets.REGISTRY_PASSWORD }}
