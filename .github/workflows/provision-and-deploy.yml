@@ -68,7 +68,7 @@ jobs:
   deploy:
     name: 🚀 Deploy
     if: ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev') && github.event_name == 'push' }}
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     # needs: [provision]
     container:
       image: mcr.microsoft.com/azure-dev-cli-apps:latest
