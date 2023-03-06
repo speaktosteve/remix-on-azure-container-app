@@ -2,6 +2,9 @@
 
 - [Remix Docs](https://remix.run/docs)
 
+[![👷 Build and Test](https://github.com/speaktosteve/remix-from-scratch/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/speaktosteve/remix-from-scratch/actions/workflows/build-and-test.yml)
+
+
 ## Development
 
 From your terminal:
