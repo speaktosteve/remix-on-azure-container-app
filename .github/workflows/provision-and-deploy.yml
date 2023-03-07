@@ -10,7 +10,7 @@ jobs:
   createVersion:
     name: Create Version
     outputs:
-      pkgVersion: ${{ steps.get-version.outputs.pkg-version }}
+      pkgVersion: ${{ steps.get-version.outputs.pkgVersion }}
     permissions:
       contents: write
       issues: write
@@ -45,8 +45,7 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     env:
-      PKG_VERSION: "0.0.1.90a475"
-      # PKG_VERSION: ${{needs.createVersion.outputs.pkgVersion}}
+      PKG_VERSION: ${{needs.createVersion.outputs.pkgVersion}}
     steps:
       - run: echo "$PKG_VERSION"
       - name: ⬇️ Checkout repo
