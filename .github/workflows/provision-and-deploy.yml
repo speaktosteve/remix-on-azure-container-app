@@ -19,9 +19,9 @@ jobs:
     steps:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
-      - run: npx semantic-release --branches main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - run: npx semantic-release --branches main
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Export version
         id: get-version
@@ -45,7 +45,7 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     env:
-      PKG_VERSION: "latest"
+      PKG_VERSION: ${{needs.createVersion.outputs.pkgVersion}}
     steps:
       - run: echo "$PKG_VERSION"
       - name: ⬇️ Checkout repo
