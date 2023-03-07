@@ -11,9 +11,11 @@ jobs:
     name: Create Version
     outputs:
       pkgVersion: ${{ steps.tag_version.outputs.new_tag }}
-    runs-on: ubuntu-latest
     permissions:
+      contents: write
+      issues: write
       pull-requests: write
+    runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
