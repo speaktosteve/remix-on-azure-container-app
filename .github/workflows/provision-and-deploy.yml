@@ -37,8 +37,6 @@ jobs:
   deploy:
     name: Deploy
     needs: createVersion
-    outputs:
-      pkg-version: ${{ needs.createVersion.outputs.pkgVersion }}
     permissions:
       contents: write
       issues: write
@@ -46,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - env:
-          PKG_VERSION: ${{needs.createVersion.outputs.pkgVersion}}
+          PKG_VERSION: "test"
         run: echo "$PKG_VERSION"
 
       - name: ⬇️ Checkout repo
