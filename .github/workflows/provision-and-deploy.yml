@@ -11,24 +11,10 @@ jobs:
     name: Create Version
     outputs:
       pkgVersion: ${{ steps.tag_version.outputs.new_tag }}
-    permissions:
-      contents: write
-      issues: write
-      pull-requests: write
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
-      # - run: npx semantic-release --branches main
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # - name: Export version
-      #   id: get-version
-      #   run: |
-      #     PKG_VERSION=$(npm pkg get version)
-      #     echo "pkgVersion={$PKG_VERSION}" >> $GITHUB_OUTPUT
-
       - name: Bump version and push tag
         id: tag_version
         uses: laputansoft/github-tag-action@v4.6
@@ -36,14 +22,9 @@ jobs:
           release_branches: main
           github_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.package-version.outputs.version }}
-
   deploy:
     name: Deploy
     needs: createVersion
-    permissions:
-      contents: write
-      issues: write
-      pull-requests: write
     runs-on: ubuntu-latest
     env:
       PKG_VERSION: ${{needs.createVersion.outputs.pkgVersion}}
