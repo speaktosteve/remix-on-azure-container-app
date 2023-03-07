@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - env:
-          PKG_VERSION: "test"
+          PKG_VERSION: "latest"
         run: echo "$PKG_VERSION"
 
       - name: ⬇️ Checkout repo
