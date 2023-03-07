@@ -135,8 +135,9 @@ jobs:
         with:
           azcliversion: 2.30.0
           inlineScript: |
-            az containerapp up \
-            --name ca-web-agtw7uioiu2do \
-            --image cragtw7uioiu2do.azurecr.io/remix-amd:latest \
-            --ingress external
-            --target-port 3000
+            az account show
+             # az containerapp up \
+             # --name ca-web-agtw7uioiu2do \
+             # --image cragtw7uioiu2do.azurecr.io/remix-amd:latest \
+             # --ingress external
+             # --target-port 3000
