@@ -45,7 +45,8 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     env:
-      PKG_VERSION: ${{needs.createVersion.outputs.pkgVersion}}
+      PKG_VERSION: "0.0.1.90a475"
+      # PKG_VERSION: ${{needs.createVersion.outputs.pkgVersion}}
     steps:
       - run: echo "$PKG_VERSION"
       - name: ⬇️ Checkout repo
