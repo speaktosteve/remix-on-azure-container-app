@@ -45,6 +45,10 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
+      - name: Read version
+        run: |
+          echo Version now: ${ steps.package-version.outputs.version }
+
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
