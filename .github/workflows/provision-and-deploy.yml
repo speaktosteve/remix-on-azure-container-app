@@ -27,7 +27,7 @@ jobs:
         id: get-version
         run: |
           PKG_VERSION=$(npm pkg get version)
-          echo "pkgVersion={$PKG_VERSION#v}" >> $GITHUB_OUTPUT
+          echo "pkgVersion={$PKG_VERSION}" >> $GITHUB_OUTPUT
 
       - name: Bump version and push tag
         uses: laputansoft/github-tag-action@v4.6
