@@ -66,7 +66,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ env.PKG_VERSION }}
+          tags: ${{ secrets.ACR_ENDPOINT }}:latest
 
       - name: Azure Login
         uses: azure/login@v1
@@ -81,6 +81,6 @@ jobs:
             az config set extension.use_dynamic_install=yes_without_prompt
             az containerapp up \
              --name ca-web-agtw7uioiu2do \
-             --image $PKG_VERSION \
+             --image ${{ secrets.ACR_ENDPOINT }}:latest \
              --ingress external \
              --target-port 3000
