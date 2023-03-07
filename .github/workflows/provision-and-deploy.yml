@@ -66,7 +66,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ env.$PKG_VERSION }}
+          tags: ${{ env.PKG_VERSION }}
 
       - name: Azure Login
         uses: azure/login@v1
