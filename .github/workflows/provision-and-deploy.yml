@@ -14,7 +14,7 @@ jobs:
         uses: laputansoft/github-tag-action@v4.6
         with:
           release_branches: main
-          github_token: ${{ env.github-token }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.package-version.outputs.version }}
 
       - name: Log into registry
