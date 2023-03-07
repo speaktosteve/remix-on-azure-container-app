@@ -26,7 +26,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: cragtw7uioiu2do.azurecr.io/remix-amd:latest
+          tags: cragtw7uioiu2do.azurecr.io/remix-amd:2
 
       - name: Azure Login
         uses: azure/login@v1
@@ -41,6 +41,6 @@ jobs:
             az config set extension.use_dynamic_install=yes_without_prompt
             az containerapp up \
              --name ca-web-agtw7uioiu2do \
-             --image cragtw7uioiu2do.azurecr.io/remix-amd:latest \
+             --image cragtw7uioiu2do.azurecr.io/remix-amd:2 \
              --ingress external \
              --target-port 3000
