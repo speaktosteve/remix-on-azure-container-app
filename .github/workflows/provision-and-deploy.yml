@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - env:
-          PKG_VERSION: "cragtw7uioiu2do.azurecr.io/remix-amd:latest"
+          PKG_VERSION: "latest"
         run: echo "$PKG_VERSION"
 
       - name: ⬇️ Checkout repo
@@ -66,7 +66,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.ACR_ENDPOINT }}/remix-amd:latest
+          tags: ${{ secrets.ACR_ENDPOINT }}/remix-amd:$PKG_VERSION
 
       - name: Azure Login
         uses: azure/login@v1
@@ -81,6 +81,6 @@ jobs:
             az config set extension.use_dynamic_install=yes_without_prompt
             az containerapp up \
              --name ca-web-agtw7uioiu2do \
-             --image ${{ secrets.ACR_ENDPOINT }}:latest \
+             --image ${{ secrets.ACR_ENDPOINT }}/remix-amd:latest \
              --ingress external \
              --target-port 3000
