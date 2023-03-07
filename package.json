@@ -1,4 +1,5 @@
 {
+  "name": "remix-accelerator",
   "private": true,
   "sideEffects": false,
   "scripts": {
