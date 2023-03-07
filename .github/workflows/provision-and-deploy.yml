@@ -129,3 +129,14 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: cragtw7uioiu2do.azurecr.io/remix-amd:latest
+
+      - name: Azure CLI script
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.30.0
+          inlineScript: |
+            az containerapp up \
+            --name ca-web-agtw7uioiu2do \
+            --image cragtw7uioiu2do.azurecr.io/remix-amd:latest \
+            --ingress external
+            --target-port 3000
