@@ -66,7 +66,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.ACR_ENDPOINT }}/remix-amd:${{ env.$PKG_VERSION }}
+          tags: ${{ secrets.ACR_ENDPOINT }}/remix-amd:${{ env.PKG_VERSION }}
 
       - name: Azure Login
         uses: azure/login@v1
