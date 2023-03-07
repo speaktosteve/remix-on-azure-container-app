@@ -1,10 +1,11 @@
 name: 👷 Build and Test
 
 on:
-  push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
+  # push:
+  #   branches: ["main"]
+  # pull_request:
+  #   branches: ["main"]
+  pull_request_review:
 
 jobs:
   build:
@@ -12,6 +13,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Label when approved
+        uses: pullreminders/label-when-approved-action@main
+        env:
+          APPROVALS: "1"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ADD_LABEL: "approved"
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
 
