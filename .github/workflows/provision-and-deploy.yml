@@ -38,7 +38,7 @@ jobs:
     name: Deploy
     needs: createVersion
     outputs:
-      pkg-version: ${{ steps.get-version.outputs.pkg-version }}
+      pkg-version: ${{ needs.createVersion.outputs.pkgVersion }}
     permissions:
       contents: write
       issues: write
