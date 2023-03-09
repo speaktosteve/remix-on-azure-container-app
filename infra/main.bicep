@@ -47,32 +47,32 @@ module monitoring './core/monitor/monitoring.bicep' = {
   }
 }
 
-// // Container apps host (including container registry)
-// module containerApps './core/host/container-apps.bicep' = {
-//   name: 'container-apps'
-//   scope: rg
-//   params: {
-//     name: 'app'
-//     containerAppsEnvironmentName: !empty(containerAppsEnvironmentName) ? containerAppsEnvironmentName : '${abbrs.appManagedEnvironments}${resourceToken}'
-//     containerRegistryName: !empty(containerRegistryName) ? containerRegistryName : '${abbrs.containerRegistryRegistries}${resourceToken}'
-//     location: location
-//     logAnalyticsWorkspaceName: monitoring.outputs.logAnalyticsWorkspaceName
-//   }
-// }
+// Container apps host (including container registry)
+module containerApps './core/host/container-apps.bicep' = {
+  name: 'container-apps'
+  scope: rg
+  params: {
+    name: 'app'
+    containerAppsEnvironmentName: !empty(containerAppsEnvironmentName) ? containerAppsEnvironmentName : '${abbrs.appManagedEnvironments}${resourceToken}'
+    containerRegistryName: !empty(containerRegistryName) ? containerRegistryName : '${abbrs.containerRegistryRegistries}${resourceToken}'
+    location: location
+    logAnalyticsWorkspaceName: monitoring.outputs.logAnalyticsWorkspaceName
+  }
+}
 
-// // Web frontend
-// module web './app/web.bicep' = {
-//   name: 'web'
-//   scope: rg
-//   params: {
-//     name: !empty(webContainerAppName) ? webContainerAppName : '${abbrs.appContainerApps}web-${resourceToken}'
-//     location: location
-//     imageName: webImageName
-//     containerAppsEnvironmentName: containerApps.outputs.environmentName
-//     containerRegistryName: containerApps.outputs.registryName
-//     sessionSecret: sessionSecret
-//   }
-// }
+// Web frontend
+module web './app/web.bicep' = {
+  name: 'web'
+  scope: rg
+  params: {
+    name: !empty(webContainerAppName) ? webContainerAppName : '${abbrs.appContainerApps}web-${resourceToken}'
+    location: location
+    imageName: webImageName
+    containerAppsEnvironmentName: containerApps.outputs.environmentName
+    containerRegistryName: containerApps.outputs.registryName
+    sessionSecret: sessionSecret
+  }
+}
 
 
 
