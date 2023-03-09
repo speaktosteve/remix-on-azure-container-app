@@ -31,7 +31,7 @@ jobs:
     name: ☁️ Provision
     if: ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev') && github.event_name == 'push' }}
     runs-on: ubuntu-latest
-    needs: [createVersion]
+    needs: createVersion
     container:
       image: mcr.microsoft.com/azure-dev-cli-apps:latest
 
@@ -61,7 +61,7 @@ jobs:
 
   deploy:
     name: 🚀 Deploy
-    needs: createVersion
+    needs: provision
     runs-on: ubuntu-latest
     env:
       PKG_VERSION: ${{needs.createVersion.outputs.pkgVersion}}
