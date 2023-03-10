@@ -38,3 +38,5 @@ The following infrastructure is provisioned as defined in the Bicep definition f
   - Log Analytics workspace
 
 ## Provisioning
+
+GitHub actions: see workflows in [.github/workflows](.github/workflows)
