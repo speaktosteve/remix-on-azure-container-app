@@ -5,7 +5,7 @@
   "scripts": {
     "build": "remix build",
     "dev": "remix dev",
-    "start": "remix-serve build",
+    "start": "PORT=80 remix-serve build",
     "typecheck": "tsc"
   },
   "dependencies": {
