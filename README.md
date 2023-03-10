@@ -37,6 +37,14 @@ The following infrastructure is provisioned as defined in the Bicep definition f
   - Shared dashboard
   - Log Analytics workspace
 
-## Provisioning
+## Actions
 
 GitHub actions: see workflows in [.github/workflows](.github/workflows)
+
+### Build and Test workflow
+
+![build-and-test workflow](docs/images/build-test-action.png?raw=true "Build and Test workflow")
+
+### Provision and Deploy workflow
+
+![provision-and-deploy workflow](docs/images/provision-deploy-action.png?raw=true "Provision and Deploy workflow")
