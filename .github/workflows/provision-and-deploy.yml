@@ -59,16 +59,26 @@ jobs:
           AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-  deploy:
-    name: 🚀 Deploy
+  deployToACR:
+    name: 🚀 Deploy Image to ACR
     needs: [createVersion, provision]
     runs-on: ubuntu-latest
     env:
       PKG_VERSION: ${{needs.createVersion.outputs.pkgVersion}}
+      REGISTRY_USERNAME:
     steps:
       - run: echo "$PKG_VERSION"
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
+
+      - name: Fetch the ACR Credentials
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.30.0
+          inlineScript: |
+            REGISTRY_USERNAME=$(az acr credential show -n ${{ secrets.REGISTRY_ENDPOINT }} --query username)
+            echo '::add-mask::$REGISTRY_USERNAME'
+            echo REGISTRY_USERNAME=$REGISTRY_USERNAME >> $GITHUB_ENV
 
       - name: Log into registry
         uses: docker/login-action@v1
@@ -88,6 +98,11 @@ jobs:
           push: true
           tags: ${{ secrets.REGISTRY_ENDPOINT }}/${{ vars.REMIX_APP_IMAGE_NAME }}:${{ env.PKG_VERSION }}
 
+  deployToContainerApp:
+    name: 🚀 Deploy Container to Container App
+    needs: deployToACR
+    runs-on: ubuntu-latest
+    steps:
       - name: Azure Login
         uses: azure/login@v1
         with:
@@ -100,7 +115,7 @@ jobs:
           inlineScript: |
             az config set extension.use_dynamic_install=yes_without_prompt
             az containerapp up \
-             --name ca-web-agtw7uioiu2do \
-             --image ${{ secrets.REGISTRY_ENDPOINT }}/${{ vars.REMIX_APP_IMAGE_NAME }}:${{ env.PKG_VERSION }} \
-             --ingress external \
-             --target-port 80
+            --name ca-web-agtw7uioiu2do \
+            --image ${{ secrets.REGISTRY_ENDPOINT }}/${{ vars.REMIX_APP_IMAGE_NAME }}:${{ env.PKG_VERSION }} \
+            --ingress external \
+            --target-port 80

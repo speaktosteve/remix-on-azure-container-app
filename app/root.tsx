@@ -10,7 +10,9 @@ import {
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "New Remix App",
+  title: "Remix App Accelerator",
+  description:
+    "Starting point to develop Remix apps with infra and deployment in place to deploy to Azure Container App.",
   viewport: "width=device-width,initial-scale=1",
 });
 
