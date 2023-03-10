@@ -103,4 +103,4 @@ jobs:
              --name ca-web-agtw7uioiu2do \
              --image ${{ secrets.REGISTRY_ENDPOINT }}/${{ vars.REMIX_APP_IMAGE_NAME }}:${{ env.PKG_VERSION }} \
              --ingress external \
-             --target-port 3000
+             --target-port 80
