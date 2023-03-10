@@ -61,7 +61,7 @@ jobs:
 
   deploy:
     name: 🚀 Deploy
-    needs: provision
+    needs: [createVersion, provision]
     runs-on: ubuntu-latest
     env:
       PKG_VERSION: ${{needs.createVersion.outputs.pkgVersion}}
