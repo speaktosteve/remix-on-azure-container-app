@@ -24,10 +24,17 @@ This starts your app in development mode, rebuilding assets on file changes.
 
 ## Infrastructure
 
-The following infrastructure is provisioned as defined in the Bicep definition files found in the [infra/](infra) directory:
-
-- resource group
--
+The Remix app can be run locally either directly using `npm run dev` or within a Docker container, which is defined in the [Dockerfile](Dockerfile). When deployed to the cloud, the app runs as a container.
 
 This accelerator deploys the Remix app to an [Azure Container App](https://azure.microsoft.com/en-us/products/container-apps) which provides a serverless host for the app to run on.
-The app runs as a container is pushed to
+
+The following infrastructure is provisioned as defined in the Bicep definition files found in the [infra/](infra) directory:
+
+- Resource group
+  - Container registry
+  - Container App
+  - Container Apps Environment
+  - Shared dashboard
+  - Log Analytics workspace
+
+## Provisioning
