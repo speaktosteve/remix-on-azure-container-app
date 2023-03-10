@@ -7,31 +7,10 @@ on:
 name: 🚀 Provision and Deploy
 
 jobs:
-  createVersion:
-    name: 🔢 Create Version
-    outputs:
-      pkgVersion: ${{ steps.tag_version.outputs.new_tag }}
-    permissions:
-      contents: write
-      issues: write
-      pull-requests: write
-    runs-on: ubuntu-latest
-    steps:
-      - name: ⬇️ Checkout repo
-        uses: actions/checkout@v3
-      - name: Bump version and push tag
-        id: tag_version
-        uses: laputansoft/github-tag-action@v4.6
-        with:
-          release_branches: main
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ steps.package-version.outputs.version }}
-
   provision:
     name: ☁️ Provision
     if: ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev') && github.event_name == 'push' }}
     runs-on: ubuntu-latest
-    needs: createVersion
     container:
       image: mcr.microsoft.com/azure-dev-cli-apps:latest
 
@@ -59,6 +38,26 @@ jobs:
           AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+  createVersion:
+    name: 🔢 Create Version
+    outputs:
+      pkgVersion: ${{ steps.tag_version.outputs.new_tag }}
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+      - name: Bump version and push tag
+        id: tag_version
+        uses: laputansoft/github-tag-action@v4.6
+        with:
+          release_branches: main
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ steps.package-version.outputs.version }}
+
   deployToACR:
     name: 📦 Build and Push Image to ACR
     needs: [createVersion, provision]
@@ -71,6 +70,11 @@ jobs:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
 
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Fetch the ACR Credentials
         uses: azure/CLI@v1
         with:
@@ -79,11 +83,6 @@ jobs:
             REGISTRY_USERNAME=$(az acr credential show -n ${{ secrets.REGISTRY_ENDPOINT }} --query username)
             echo '::add-mask::$REGISTRY_USERNAME'
             echo REGISTRY_USERNAME=$REGISTRY_USERNAME >> $GITHUB_ENV
-
-      - name: Azure Login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Log into registry
         uses: docker/login-action@v1
