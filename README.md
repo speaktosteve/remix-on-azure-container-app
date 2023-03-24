@@ -43,6 +43,8 @@ The following infrastructure is provisioned as defined in the Bicep definition f
 
 ## Actions
 
+The following workflows are used to build and deploy the app to Azure. In order for these to work you will need to set up a number of secrets and variables in your repo. See Set Up.
+
 GitHub actions: see workflows in [.github/workflows](.github/workflows)
 
 ### Build and Test workflow
@@ -52,3 +54,37 @@ GitHub actions: see workflows in [.github/workflows](.github/workflows)
 ### Provision and Deploy workflow
 
 ![provision-and-deploy workflow](docs/images/provision-deploy-action.png?raw=true "Provision and Deploy workflow")
+
+### Respository set up
+
+#### Secrets and first time build and deployment
+
+**Variables**
+
+The following repo variables will need creating:
+
+- AZURE_ENV_NAME - e.g. remix-environment. Used by AZD to name the environment
+- AZURE_LOCATION - e.g. uksouth. The Azure region where the infra will be created
+- REMIX_APP_IMAGE_NAME - the name that the image will be given in the ACR repo
+
+Your repo variables should look like this:
+![variables](docs/images/repo-variables.png?raw=true "Repo Variables")
+
+**Secrets**
+
+- AZURE_CREDENTIALS, in order for the GitHub CLI to authenticate to your subscription: see https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure?tabs=azure-portal%2Clinux#use-the-azure-login-action-with-a-service-principal-secret
+- AZURE_SUBSCRIPTION_ID - the ID of the subscription in which you want the resources created
+
+NB: Known issue! The first time the provisioning and deployment workflow is run the deployment will fail. Certain configuration values will need taken from the newly-created ACR before the deployment workflow can successfully deploy the app.
+
+Once the **Provision and Deploy workflow** is run the infrastructure should be created by the Provisioning stage, but the **Build and Push Image** will fail.
+Once the infra is created, go to the ACR in the Azure Portal and grab the following information for these secrets:
+
+- REGISTRY_ENDPOINT - the login server address of the newly created ACR overview screen, e.g. car654654645.azurecr.io
+- REGISTRY_USERNAME - from the ACR access keys screen in the portal
+- REGISTRY_PASSWORD - from the ACR access keys screen in the portal
+
+Your repo secrets should look like this:
+![secrets](docs/images/repo-secrets.png?raw=true "Repo Secrets")
+
+If you then re-run the **Provision and Deploy workflow** it should complete successfully. You should then have a running app within the Container App service.
