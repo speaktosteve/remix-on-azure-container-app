@@ -25,7 +25,7 @@ module app '../core/host/container-app.bicep' = {
       }
       {
         name: 'PORT'
-        value: '80'
+        value: '3000'
       }
       {
         name: 'NODE_ENV'
