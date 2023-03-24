@@ -1,3 +1,7 @@
+[![👷 Build and Test](https://github.com/speaktosteve/remix-from-scratch/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/speaktosteve/remix-from-scratch/actions/workflows/build-and-test.yml)
+
+[![🚀 Provision and Deploy](https://github.com/speaktosteve/remix-from-scratch/actions/workflows/provision-and-deploy.yml/badge.svg)](https://github.com/speaktosteve/remix-from-scratch/actions/workflows/provision-and-deploy.yml)
+
 # Remix Accelerator
 
 This repo provides the main building blocks to develop and deploy your full-stack [Remix](https://remix.run/docs) web application to the cloud.
