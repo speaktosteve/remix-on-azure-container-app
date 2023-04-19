@@ -49,15 +49,15 @@ GitHub actions: see workflows in [.github/workflows](.github/workflows)
 
 ### Build and Test workflow
 
-Simply tries to build the app using standard NPM commands.
+- Simply tries to build the app using standard NPM commands.
 
 ![build-and-test workflow](docs/images/build-test-action.png?raw=true "Build and Test workflow")
 
 ### Provision and Deploy workflow
 
-Provisions the infrastructure defined in the bicep definitions using AZD (Azure Developer CLI)
-Builds and publishes the app as a Docker image to ACR (Azure Container Registry)
-Deploys the image to the newly provisioned Azure Container App.
+- Provisions the infrastructure defined in the bicep definitions using AZD (Azure Developer CLI)
+- Builds and publishes the app as a Docker image to ACR (Azure Container Registry)
+- Deploys the image to the newly provisioned Azure Container App.
 
 ![provision-and-deploy workflow](docs/images/provision-deploy-action.png?raw=true "Provision and Deploy workflow")
 
