@@ -63,6 +63,8 @@ GitHub actions: see workflows in [.github/workflows](.github/workflows)
 
 In order for the docker build and push action to be able to connect to and push to ACR we are using a service principal.
 
+NB: currently the service principal is not created as part of the automation, you must create it manually as per instructions below. As it relies on the existence of the ACR, you will need to run the provisioning and deployment workflow first (it will fail), then create the service principal and add its details to the secrets before running the workflow again.
+
 Create your service principal like so:
 
 ```
