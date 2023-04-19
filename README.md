@@ -59,6 +59,43 @@ GitHub actions: see workflows in [.github/workflows](.github/workflows)
 
 #### Secrets and first time build and deployment
 
+**Service Principal**
+
+In order for the docker build and push action to be able to connect to and push to ACR we are using a service principal.
+
+Create your service principal like so:
+
+```
+ACR_NAME=[name of your Azure Container Registry]
+SERVICE_PRINCIPAL_NAME=[Must be unique within your AD tenant]
+
+# Obtain the full registry ID
+ACR_REGISTRY_ID=$(az acr show --name $ACR_NAME --query "id" --output tsv)
+# echo $registryId
+
+# Create the service principal with rights scoped to the registry.
+# Default permissions are for docker pull access. Modify the '--role'
+# argument value as desired:
+# acrpull:     pull only
+# acrpush:     push and pull
+# owner:       push, pull, and assign roles
+PASSWORD=$(az ad sp create-for-rbac --name $SERVICE_PRINCIPAL_NAME --scopes $ACR_REGISTRY_ID --role acrpull --query "password" --output tsv)
+USER_NAME=$(az ad sp list --display-name $SERVICE_PRINCIPAL_NAME --query "[].appId" --output tsv)
+
+# Output the service principal's credentials; use these in your services and
+# applications to authenticate to the container registry.
+echo "Service principal ID: $USER_NAME"
+echo "Service principal password: $PASSWORD"
+```
+
+You will then need to grant the above service principal the permissions to push to the ACR
+
+```
+az role assignment create --assignee [ID OF SERVICE PRINCIPAL] --scope /subscriptions/[SUBSCRIPTION ID]/resourceGroups/[RESOURCE GROUP NAME]/providers/Microsoft.ContainerRegistry/registries/[name of your Azure Container Registry] --role acrpush
+
+
+```
+
 **Variables**
 
 The following repo variables will need creating:
@@ -75,14 +112,14 @@ Your repo variables should look like this:
 - AZURE_CREDENTIALS, in order for the GitHub CLI to authenticate to your subscription: see https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure?tabs=azure-portal%2Clinux#use-the-azure-login-action-with-a-service-principal-secret
 - AZURE_SUBSCRIPTION_ID - the ID of the subscription in which you want the resources created
 
-NB: Known issue! The first time the provisioning and deployment workflow is run the deployment will fail. Certain configuration values will need taken from the newly-created ACR before the deployment workflow can successfully deploy the app.
+NB: currently the service principal is not created as part of the automation, you must create it manually as per instructions above. As it relies on the existence of the ACR, you will need to run the provisioning and deployment workflow first (it will fail), then create the service principal and add its details to the secrets before running the workflow again.
 
 Once the **Provision and Deploy workflow** is run the infrastructure should be created by the Provisioning stage, but the **Build and Push Image** will fail.
 Once the infra is created, go to the ACR in the Azure Portal and grab the following information for these secrets:
 
 - REGISTRY_ENDPOINT - the login server address of the newly created ACR overview screen, e.g. car654654645.azurecr.io
-- REGISTRY_USERNAME - from the ACR access keys screen in the portal
-- REGISTRY_PASSWORD - from the ACR access keys screen in the portal
+- REGISTRY_USERNAME - the client ID of the service principal created above
+- REGISTRY_PASSWORD - the client secret of the service principal created above
 
 Your repo secrets should look like this:
 ![secrets](docs/images/repo-secrets.png?raw=true "Repo Secrets")
