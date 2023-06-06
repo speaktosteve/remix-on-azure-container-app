@@ -2,6 +2,8 @@
 
 [![🚀 Provision and Deploy](https://github.com/speaktosteve/remix-from-scratch/actions/workflows/provision-and-deploy.yml/badge.svg)](https://github.com/speaktosteve/remix-from-scratch/actions/workflows/provision-and-deploy.yml)
 
+[![New Ava InnerSource](https://img.shields.io/badge/New-Ava--InnerSource-%23DC4600?labelColor=%23e5e5e5)](https://avanade.github.io/maturity-model/)
+
 # Remix Accelerator
 
 This repo provides the main building blocks to develop and deploy your full-stack [Remix](https://remix.run/docs) web application to the cloud.
